@@ -98,7 +98,7 @@ function addMarcacao(marcacao){
     const novoElement = document.createElement("p");
     const textMarc = document.createTextNode(marcacao);
     novoElement.append(textMarc);
-    novoElement.style.color = "white";
+    novoElement.style.color = "rgb(17, 255, 0)";
     pai.appendChild(novoElement);
 }
 function limpaMarcacoes(){

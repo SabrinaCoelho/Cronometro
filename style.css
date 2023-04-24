@@ -29,6 +29,7 @@ body{
 .btn-wrapper{
     display: flex;
     justify-content: center;
+    flex-wrap: wrap;
 }
 #btnStop, #btnReset, #btnContinue, #btnMark{
     display: none;
@@ -39,12 +40,12 @@ h1{
     /* font-size: 12.5rem; */
     font-size: 15vw;
     text-align: center;
-    color: white;
+    color: rgb(17, 255, 0);
     font-family: 'alarm-clock', sans-serif;
 }
 button{
     padding: 10px;
-    background-color: aqua;
+    background-color: rgb(17, 255, 0);
     border: none;
     font-family: 'Ubuntu Condensed', sans-serif;
     font-size: 15px;
@@ -54,7 +55,11 @@ button{
     transition: background-color 500ms;
 }
 button:hover{
-    background-color: deeppink;
+    /* background-color: deeppink; */
+    background-color: black;
+    border: 1px solid rgb(17, 255, 0);
+    color: rgb(17, 255, 0);
+    
 }
 .marcacoes p {
     display: block;
@@ -62,9 +67,19 @@ button:hover{
 #marcacoes{
     min-width: 300px;
     width: 20vw;
+    max-height: 250px;
+    overflow-y: scroll;
     display: flex;
     flex-direction: column;
-    /* justify-content: center; */
     text-align: center;
-    /* background-color: deeppink; */
+}
+#marcacoes::-webkit-scrollbar {
+    width: 5px;
+}
+#marcacoes::-webkit-scrollbar-track {
+    background: transparent;
+}
+#marcacoes::-webkit-scrollbar-thumb {
+    background: rgb(17, 255, 0);
+    border-radius: 2px;
 }
