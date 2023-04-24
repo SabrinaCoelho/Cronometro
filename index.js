@@ -23,6 +23,7 @@ function main(){
 let idCronometro = null;//ponteiro
 let lastUpdate = new Date().setHours(0,0,0,0);
 let lastPause;
+
 const cronometro = function () {
     let idIncrementoMs = setInterval(
         () =>{
@@ -62,13 +63,14 @@ function reset(){//seta pra 00:00
     lastUpdate = new Date().setHours(0,0,0,0);
     updateElement(formataTexto(lastUpdate));
     displayButtons(["btnStart"], ["btnContinue", "btnStop", "btnReset", "btnMark"]);
+    limpaMarcacoes();
 }
 function continuar(){//novo disparo do interval com o ultimo tempo
     idCronometro = cronometro();
     displayButtons(["btnStop"], ["btnStart", "btnContinue", "btnReset", "btnMark"]);
 }
 function marcar(){//marca o tempo de pause
-    console.log(`*******************************${formataTexto(lastPause)}********************`);
+    addMarcacao(formataTexto(lastPause));
 }
 function updateElement(t){
     let tempo = document.getElementById("tempo");
@@ -89,5 +91,19 @@ function displayButtons(display = [], hidden = []){//
             let btnX = document.getElementById(e);
             btnX.style.display = "none";
         }
+    );
+}
+function addMarcacao(marcacao){
+    const pai = document.getElementById("marcacoes");
+    const novoElement = document.createElement("p");
+    const textMarc = document.createTextNode(marcacao);
+    novoElement.append(textMarc);
+    novoElement.style.color = "white";
+    pai.appendChild(novoElement);
+}
+function limpaMarcacoes(){
+    const pai = document.getElementById("marcacoes");
+    Array.from(pai.children).forEach(
+        e => e.remove()
     );
 }
