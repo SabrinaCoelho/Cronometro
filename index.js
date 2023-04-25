@@ -5,7 +5,10 @@ TODO
 let idCronometro = null;//ponteiro
 let lastUpdate = new Date().setHours(0,0,0,0);
 let lastPause;
-let tempoLimite = 99;//criar obj Date
+// const auxDate = new Date();
+// let tempoLimite = auxDate.setHours(99, 00, 00);
+const tempoLimite = new Date();
+tempoLimite.setHours(99, 00, 00);
 
 function main(){
     // Usuario define tempo limite
@@ -31,15 +34,16 @@ function main(){
 function coletaTempoLimiteUsuario(){
     while(true){
         if(confirm("Deseja definir um tempo limite?")){
-            let aux = prompt("Por favor, defina o tempo limite no formato 00:00:00:00.");
-            
-            // console.log(aux.split(":").length);
-            // break;
-            if(aux.split(":").length === 4){
-                tempoLimite = aux.split(":");
-                break;
-            }else{
-                alert("Por favor, informe  um tempo limite no formato 00:00:00:00.");
+            let aux = prompt("Por favor, defina o tempo limite no formato 00:00:00.");
+            if(aux && aux.length){//se existe e tem comprimento
+                if(aux.split(":").length === 3){
+                    let auxToNumber = aux.split(":").map(e => Number(e));
+                    tempoLimite.setHours(...auxToNumber);
+                    break;
+                }
+            }
+            else{
+                alert("Por favor, informe  um tempo limite no formato 00:00:00.");
             }
         }else{
             break;
@@ -54,9 +58,13 @@ const cronometro = function () {
             
             lastUpdate = new Date(lastUpdate);
             lastPause = new Date(lastUpdate);
-            if(lastUpdate.getHours() === tempoLimite){
-                stop();
-                window.clearInterval(idIncrementoMs);
+            if(lastUpdate.getHours() === tempoLimite.getHours()){
+                if(lastUpdate.getMinutes() === tempoLimite.getMinutes()){
+                    if(lastUpdate.getSeconds() === tempoLimite.getSeconds()){
+                        stop();
+                        displayButtons(["btnReset"], ["btnStop", "btnStart", "btnContinue", "btnMark"]);
+                    }
+                }
             }
             lastUpdate.setMilliseconds(lastUpdate.getMilliseconds() + 10);
         },10
@@ -78,7 +86,7 @@ function start({target}){//seta 00:00 e dispara interval
     displayButtons(["btnStop"], ["btnStart", "btnContinue", "btnReset", "btnMark"]);
 }
 function stop(){//atualiza ultimo tempo
-    console.log(idCronometro);
+    // console.log(idCronometro);
     window.clearInterval(idCronometro);
     displayButtons(["btnReset", "btnMark", "btnContinue"], ["btnStart", "btnStop"]);
 }
