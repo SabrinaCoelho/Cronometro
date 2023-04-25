@@ -1,10 +1,18 @@
 /* 
 TODO
 - usuario inserir limite de tempo
-- mostrar marcacoes
 */
+let idCronometro = null;//ponteiro
+let lastUpdate = new Date().setHours(0,0,0,0);
+let lastPause;
+let tempoLimite = 99;//criar obj Date
 
 function main(){
+    // Usuario define tempo limite
+    coletaTempoLimiteUsuario();
+    // 
+    console.log(tempoLimite);
+
     const btnStop = document.getElementById("btnStop");
     btnStop.addEventListener("click", stop);
     
@@ -20,9 +28,24 @@ function main(){
     const btnMark = document.getElementById("btnMark");
     btnMark.addEventListener("click", marcar);
 }
-let idCronometro = null;//ponteiro
-let lastUpdate = new Date().setHours(0,0,0,0);
-let lastPause;
+function coletaTempoLimiteUsuario(){
+    while(true){
+        if(confirm("Deseja definir um tempo limite?")){
+            let aux = prompt("Por favor, defina o tempo limite no formato 00:00:00:00.");
+            
+            // console.log(aux.split(":").length);
+            // break;
+            if(aux.split(":").length === 4){
+                tempoLimite = aux.split(":");
+                break;
+            }else{
+                alert("Por favor, informe  um tempo limite no formato 00:00:00:00.");
+            }
+        }else{
+            break;
+        }
+    }
+}
 
 const cronometro = function () {
     let idIncrementoMs = setInterval(
@@ -31,7 +54,7 @@ const cronometro = function () {
             
             lastUpdate = new Date(lastUpdate);
             lastPause = new Date(lastUpdate);
-            if(lastUpdate.getHours() === 99){
+            if(lastUpdate.getHours() === tempoLimite){
                 stop();
                 window.clearInterval(idIncrementoMs);
             }
@@ -43,10 +66,10 @@ const cronometro = function () {
 /*  */
 function formataTexto(t){//formata e devolve
     let tempo = new Date(t);
-    console.log(tempo.getHours()
+   /*  console.log(tempo.getHours()
         +":"+ tempo.getMinutes()
         +":"+tempo.getSeconds()
-        +":"+tempo.getMilliseconds().toString().substring(0, 2));
+        +":"+tempo.getMilliseconds().toString().substring(0, 2)); */
     return `${formataUnidade(tempo.getHours())}:${formataUnidade(tempo.getMinutes())}:${formataUnidade(tempo.getSeconds())}:${tempo.getMilliseconds().toString().substring(0, 2)}`;
 }
 
